@@ -34,3 +34,4 @@ jobs:
           heroku_email: "ptcebula@gmail.com"
           healthcheck: "https://pokedex-pawel-123.herokuapp.com/health"
           checkstring: "ok"
+          rollbackonhealthcheckfailed: true
