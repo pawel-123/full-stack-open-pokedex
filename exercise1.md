@@ -1,0 +1,8 @@
+- Since I've had past experience with Python, I'd be keen to use it for this application.
+    - Linting - I'd use a combo-linter like Flake8, which covers both logical and stylistic lint detection and includes the most performant linters like PyFlakes (logical) and pycodestyle (stylystic)
+    - Testing - I'd use Pytest as it covers unit testing, functional testing and API testing
+    - Building - since Python is an interpreted language, there is no need for a build step 
+- There are many CI/CD alternatives to GitHub Actions in both groups
+    - Self-hosted - i.e. Concourse, Drone, Circle CI
+    - Cloud - i.e. GitLab CI, Travis CI
+- If the application would be developed in a team of about 6 people, then my default assumption would be to go with a cloud solution, such as GitHub Actions, especially as we'd likely be using GitHub already for version control. However, to make a decision I would need to better understand the type of application that is being built and what kind of impact this might have on areas like testing, packaging and deployment (I've excluded build explicitly as Python is an interpreted language).
