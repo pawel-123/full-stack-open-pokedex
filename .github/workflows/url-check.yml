@@ -1,0 +1,16 @@
+name: Periodic URL health check
+
+on:
+  schedule:
+    - cron: '10 18 * * *'
+
+    jobs:
+      url_health_check:
+        runs-on: ubuntu-18.04
+        steps:
+          - name: Check if the URL works
+            uses: jtalk/url-health-check-action@0195e0d5f1cf2ebcfdbb05b6c070b61479ebb75a
+            with:
+                url: https://pokedex-pawel-123.herokuapp.com/
+                max-attempts: 3
+                retry-delay: 5s
