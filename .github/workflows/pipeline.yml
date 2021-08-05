@@ -37,5 +37,19 @@ jobs:
           heroku_app_name: "pokedex-pawel-123"
           heroku_email: "ptcebula@gmail.com"
           healthcheck: "https://pokedex-pawel-123.herokuapp.com/health"
-          checkstring: "ok3"
+          checkstring: "ok4"
           rollbackonhealthcheckfailed: true
+  semantic_versioning_tagging:
+    needs: simple_deployment_pipeline
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+      - name: bump version and push tag
+        uses: anothrNick/github-tag-action@1.35.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          INITIAL_VERSION: 0.0.0
+          DRY_RUN: true
