@@ -31,16 +31,17 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
       - uses: akhileshns/heroku-deploy@v3.12.12
-        if: ${{ github.event_name =='push' }}
+        if: ${{ github.event_name =='push' && contains(join(github.event.commits.*.message, ' '), '#skip') }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "pokedex-pawel-123"
           heroku_email: "ptcebula@gmail.com"
           healthcheck: "https://pokedex-pawel-123.herokuapp.com/health"
-          checkstring: "ok5"
+          checkstring: "ok6"
           rollbackonhealthcheckfailed: true
   semantic_versioning_tagging:
     needs: simple_deployment_pipeline
+    if: ${{ github.event_name =='push' && contains(join(github.event.commits.*.message, ' '), '#skip') }}
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -56,7 +57,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: gihub context
+      - name: github context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
@@ -70,3 +71,13 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+      - name: commit messages join
+        if: ${{ github.event_name =='push' }}
+        env:
+          COMMIT_MESSAGES_JOIN: ${{ join(github.event.commits.*.message, ' ') }}
+        run: echo "$COMMIT_MESSAGES_JOIN"
+      - name: commit messages join contains
+        if: ${{ github.event_name =='push' }}
+        env:
+          COMMIT_MESSAGES_JOIN_CONTAINS: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        run: echo "$COMMIT_MESSAGES_JOIN_CONTAINS"
