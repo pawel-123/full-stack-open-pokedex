@@ -37,7 +37,7 @@ jobs:
           heroku_app_name: "pokedex-pawel-123"
           heroku_email: "ptcebula@gmail.com"
           healthcheck: "https://pokedex-pawel-123.herokuapp.com/health"
-          checkstring: "ok9"
+          checkstring: "ok10"
           rollbackonhealthcheckfailed: true
       - name: job failure
         if: ${{ failure() || cancelled() }}
