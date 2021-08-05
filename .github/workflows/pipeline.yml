@@ -37,7 +37,7 @@ jobs:
           heroku_app_name: "pokedex-pawel-123"
           heroku_email: "ptcebula@gmail.com"
           healthcheck: "https://pokedex-pawel-123.herokuapp.com/health"
-          checkstring: "ok4"
+          checkstring: "ok5"
           rollbackonhealthcheckfailed: true
   semantic_versioning_tagging:
     needs: simple_deployment_pipeline
@@ -51,5 +51,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-          INITIAL_VERSION: 0.0.0
-          DRY_RUN: true
+  a_test_job:
+    needs: [simple_deployment_pipeline, semantic_versioning_tagging]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: gihub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: commits
+        if: ${{ github.event_name =='push' }}
+        env:
+          COMMITS: ${{ toJson(github.event.commits) }}
+        run: echo "$COMMITS"
+      - name: commit messages
+        if: ${{ github.event_name =='push' }}
+        env:
+          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+        run: echo "$COMMIT_MESSAGES"
