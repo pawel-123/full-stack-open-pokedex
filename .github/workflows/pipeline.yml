@@ -30,14 +30,14 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
-      - uses: akhileshns/heroku-deploy@v3.12.12
+      - uses: akhileshns/heroku-deploy@79ef2ae4ff9b897010907016b268fd0f88561820
         if: ${{ github.event_name =='push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "pokedex-pawel-123"
           heroku_email: "ptcebula@gmail.com"
           healthcheck: "https://pokedex-pawel-123.herokuapp.com/health"
-          checkstring: "ok8"
+          checkstring: "ok9"
           rollbackonhealthcheckfailed: true
   semantic_versioning_tagging:
     needs: simple_deployment_pipeline
@@ -48,7 +48,7 @@ jobs:
         with:
           fetch-depth: "0"
       - name: bump version and push tag
-        uses: anothrNick/github-tag-action@1.35.0
+        uses: anothrNick/github-tag-action@cfd2c75d0bf1071c5355d577f0018b0e1b515e9c
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
